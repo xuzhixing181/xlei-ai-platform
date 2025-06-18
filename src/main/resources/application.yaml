@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: xlei-ai-platform
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: deepseek-r1:1.5b
+  data:
+    redis:
+      host: 192.168.150.101
+logging:
+  level:
+    org.springframework.ai: debug
+    com.xlei.aiplatform: debug
