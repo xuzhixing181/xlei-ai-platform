@@ -3,7 +3,6 @@ package com.xlei.aiplatform.service.impl;
 import com.xlei.aiplatform.mapper.HistoryChatMapper;
 import com.xlei.aiplatform.model.enums.ServiceType;
 import com.xlei.aiplatform.service.AIChatService;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -23,9 +22,6 @@ public class AIChatServiceImpl implements AIChatService {
     private final ChatClient chatClient;
 
     private final HistoryChatMapper historyChatMapper;
-
-
-
 
     @Override
     public String simpleChat(String prompt, String chatId) {

@@ -37,13 +37,6 @@ public class AIChatController {
      */
     @GetMapping(value = "/chat")
     public String simpleChat(String prompt, String chatId){
-//        ChatResponse chatResponse = chatClient.prompt().user(prompt).
-//                advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
-//                        // CHAT_MEMORY_CONVERSATION_ID_KEY: 聊天会话的唯一标识符
-//                        // CHAT_MEMORY_RETRIEVE_SIZE_KEY: 指定从记忆中检索的历史消息数量,即上下文的长度
-//                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 5)).call().chatResponse();
-//        String content = chatResponse.getResult().getOutput().getText();
-//        return content;
         return aiChatService.simpleChat(prompt,chatId);
     }
 
@@ -56,15 +49,6 @@ public class AIChatController {
      */
     @GetMapping(value = "/chatByStream",produces = "text/html;charset=utf-8")
     public Flux<String> chatByStream(String prompt, String chatId){
-//        // 1.保存会话id
-//        historyChatMapper.save(101+"",chatId);
-//        // 2.调用大模型
-//        Flux<String> content = chatClient.prompt().user(prompt).
-//                advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
-//                        // CHAT_MEMORY_CONVERSATION_ID_KEY: 聊天会话的唯一标识符
-//                        // CHAT_MEMORY_RETRIEVE_SIZE_KEY: 指定从记忆中检索的历史消息数量,即上下文的长度
-//                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 5)).stream().content();
-//        return content;
         return aiChatService.chatByStream(prompt,chatId);
     }
 }

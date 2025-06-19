@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * @author https://github.com/xuzhixing181
@@ -20,10 +19,10 @@ import lombok.experimental.Accessors;
 @Data
 public class CourseReserve implements Serializable {
     /**
-     * 
+     * 预约单号
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 预约课程
