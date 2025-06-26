@@ -1,6 +1,7 @@
 package com.xlei.aiplatform.controller;
 
 import com.xlei.aiplatform.mapper.HistoryChatMapper;
+import com.xlei.aiplatform.model.vo.MessageVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,7 +32,7 @@ public class HistoryChatController {
     }
 
     @GetMapping("/{type}/{chatId}")
-    public List<MessageVo> getHistoryChat(@PathVariable("type") String type,@PathVariable("chatId") String chatId){
+    public List<MessageVo> getHistoryChat(@PathVariable("type") String type, @PathVariable("chatId") String chatId){
         List<Message> messages = chatMemory.get(chatId, Integer.MAX_VALUE);
         if (CollectionUtils.isEmpty(messages)){
             return List.of();

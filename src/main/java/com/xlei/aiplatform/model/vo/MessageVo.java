@@ -1,4 +1,4 @@
-package com.xlei.aiplatform.controller;
+package com.xlei.aiplatform.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

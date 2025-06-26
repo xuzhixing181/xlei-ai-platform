@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * @author https://github.com/xuzhixing181
+ * 课程咨询涉及到的工具调用
  */
 @Component
 @RequiredArgsConstructor
