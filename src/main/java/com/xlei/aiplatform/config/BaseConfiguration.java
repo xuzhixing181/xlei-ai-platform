@@ -3,11 +3,16 @@ package com.xlei.aiplatform.config;
 import com.xlei.aiplatform.tools.CourseTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiEmbeddingModel;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.SimpleVectorStore;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -55,5 +60,36 @@ public class BaseConfiguration {
                 .build();
     }
 
+    /**
+     * @param embeddingModel: 百炼平台 通用文本向量text-embedding-v3
+     * @return 基于内存实现的向量库
+     */
+    @Bean
+    public VectorStore vectorStore(OpenAiEmbeddingModel embeddingModel) {
+        return SimpleVectorStore.builder(embeddingModel).build();
+    }
+
+    /**
+     * 基于上传的pdf文档构建 RAG知识库
+     * @param model
+     * @param chatMemory
+     * @param vectorStore
+     * @return
+     */
+    @Bean
+    public ChatClient pdfChatClient(OpenAiChatModel model, ChatMemory chatMemory, VectorStore vectorStore) {
+        SearchRequest searchRequest = SearchRequest.builder() // 向量检索的请求参数
+                .similarityThreshold(0.5d) // 相似度阈值
+                .topK(3) // 返回的文档片段数量
+                .build();
+        return ChatClient.builder(model)
+                .defaultSystem("请根据提供的上下文回答问题，不要随意猜测和编造")
+                .defaultAdvisors(
+                        new MessageChatMemoryAdvisor(chatMemory), // 历史会话增强
+                        new SimpleLoggerAdvisor(),  // 聊天会话日志增强
+                        // 基于RAG & 知识库的提问回答增强
+                        new QuestionAnswerAdvisor(vectorStore, searchRequest))
+                .build();
+    }
 
 }
